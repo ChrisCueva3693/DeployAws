@@ -3,24 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Segunda instruccion</title>
+    <title>BIENVENIDA</title>    
     <style>
-        body{
-            background-color: black;
-        }
-        h1{
-            color: aliceblue;
-        }
-        .container{
-            margin-bottom: 20%;
-        }
+        * {
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #45c541d0;
+    --text-color: white;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    overflow-x: hidden;
+}
+
+/* Navegación */
+nav {
+    width: 100%;
+    height: 10vh;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.logo {
+    color: var(--text-color);
+    position: absolute;
+    top: 18px;
+    left: 15px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.logo span {
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+}
+
+/* Ajustes para los iconos del menú */
+.hamburg,
+.cancel {
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: rgb(226, 226, 226);
+    display: none;
+    font-size: clamp(2.5rem, 0.5rem + 5vw, 3rem);
+    z-index: 1100;
+    transition: opacity 0.3s ease;
+}
+/* Clase para controlar la visibilidad */
+.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Enlaces de navegación */
+.nav-container .links a {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin: 0 20px;
+    text-decoration: none;
+    transition: 0.3s linear;
+}
+
+.nav-container .links a:hover {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Menú dropdown */
+.dropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transform: translateY(-100vh);
+    backdrop-filter: blur(4px) brightness(40%);
+    box-shadow: 0 0 20px black;
+    transition: 0.3s ease-in-out;
+    z-index: 1050;
+}
+
+.dropdown .links {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown .links a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 20px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    transition: 0.3s linear;
+}
+
+.dropdown .links a:hover {
+    background-color: var(--primary-color);
+}
+
+/* Sección principal */
+section {
+    width: 100%;
+    height: 90vh;
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.main-container .content {
+    color: var(--text-color);
+    width: 40%;
+    min-height: 100px;
+    box-shadow: 0 0 120px 50px black;
+}
+
+.content h1 {
+    font-size: clamp(1rem, 1rem + 5vw, 1.8rem);
+}
+
+.content h1 span {
+    font-weight: 700;
+    text-shadow: 0 0 10px var(--primary-color);
+    color: var(--primary-color);
+}
+
+.content .typewriter {
+    font-size: clamp(1rem, 1rem + 5vw, 1.8rem);
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.typewriter span {
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+}
+
+.content p {
+    font-size: clamp(0.8rem, 0.5rem + 2vw, 1.2rem);
+    margin: 20px 0;
+}
+
+
+/* Botón */
+.content button {
+    width: 50%;
+    height: 6vh;
+    margin: 30px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    outline: none;
+    font-size: 120%;
+    font-weight: 700;
+    border-radius: 5px;
+    transition: 0.2s linear;
+}
+
+.content button:hover {
+    transform: scale(1.1);
+    border: 2px solid var(--primary-color);
+    background-color: transparent;
+    font-weight: 700;
+    box-shadow: 0 0 40px 5px var(--primary-color);
+}
+
+/* Imagen */
+.main-container .image {
+    width: 600px;
+    height: 80vh;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 0 50px var(--primary-color);
+}
+
+.main-container .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Media Queries */
+@media (max-width: 884px) {
+    .main-container {
+        flex-direction: column-reverse;
+        padding: 20px;
+    }
+
+    .nav-container .links {
+        display: none;
+    }
+
+    .hamburg {
+        display: block;
+    }
+
+    .dropdown .cancel {
+        display: block;
+    }
+
+    .main-container .content {
+        width: 80%;
+        text-align: center;
+    }
+
+    .main-container .image {
+        width: 40%;
+        height: 40vh;
+        margin-bottom: 20px;
+    }
+
+    .content button {
+        margin: 15px auto;
+    }
+}
+
+@media (max-width: 440px) {
+    .main-container .image {
+        width: 70%;
+        height: 35vh;
+    }
+
+    .main-container .content {
+        width: 90%;
+    }
+
+    .content button {
+        width: 80%;
+    }
+}
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Yaaaaaaaa</h1>
+<nav>
+    <div class="logo">
+        Programacion <span>Distribuida</span>
     </div>
-    
+    <div class="nav-container">
+        <div class="links">
+            <a href="#">Inicio</a>            
+        </div>
+    </div>
+    <i class="fa-solid fa-bars hamburg" onclick="hamburg()"></i>
+    <div class="dropdown">
+        <div class="links">
+            <a href="#">Inicio</a>
+            <i class="fa-solid fa-xmark cancel" onclick="cancel()"></i>
+        </div>
+    </div>
+</nav>
+<section>
+    <div class="main-container">
+        <div class="content">
+            <h1>Welcome to <span>My simple WebSite !!</span></h1>
+            <div class="typewriter">For this I have used <span class="typewriter-text"></span><label for="">|</label></div>
+            <p>.</p>            
+            <a href="https://github.com/ChrisCueva3693/DeployAws">
+                <button>Join GitHub</button>
+            </a>
+        </div>
+        <div class="image">
+            <img src="https://thumbs.dreamstime.com/b/imagen-de-un-gran-drag%C3%B3n-verde-con-el-s%C3%ADmbolo-del-a%C3%B1o-que-mira-al-frente-y-tiene-fuego-en-ojo-es-seg%C3%BAn-calendario-chino-fondo-296756979.jpg" alt="">
+        </div>
+    </div>
+</section>
+<script >
+    function hamburg() {
+    const navbar = document.querySelector(".dropdown");
+    const hamburgerIcon = document.querySelector(".hamburg");
+    navbar.style.transform = "translateY(0)";
+    hamburgerIcon.classList.add('hide'); // Oculta el ícono de hamburguesa
+}
 
+function cancel() {
+    const navbar = document.querySelector(".dropdown");
+    const hamburgerIcon = document.querySelector(".hamburg");
+    navbar.style.transform = "translateY(-100vh)";
+    hamburgerIcon.classList.remove('hide'); // Muestra el ícono de hamburguesa
+}
+
+const text =[
+    "GitHub",
+    "Docker Hub",
+    "AWS",
+]
+const speed =150;
+const textElements = document.querySelector(".typewriter-text")
+
+let textIndex=0;
+let characterIndex=0;
+
+function typeWriter(){
+    if(characterIndex < text[textIndex].length){
+        textElements.innerHTML += text[textIndex].charAt(characterIndex);
+        characterIndex++;
+        setTimeout(typeWriter,speed);
+    }
+    else{
+        setTimeout(eraseText,1000)
+    }
+}
+function eraseText(){
+    if(textElements.innerHTML.length > 0){
+        textElements.innerHTML = textElements.innerHTML.slice(0,-1);
+        setTimeout(eraseText, 50);
+    }
+    else{
+        textIndex =(textIndex +1) % text.length;
+        characterIndex = 0;
+        setTimeout(typeWriter,500)
+    }
+}
+window.onload = typeWriter;
+
+</script>
 </body>
 </html>
