@@ -200,6 +200,53 @@ table {
         .local{
             background-color: red;
         }
+
+        /* Estilos del Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 400px;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .close-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -223,7 +270,48 @@ table {
     </div>
 </section>
 
+
+
 <div class="local">
+
+    <h1>Buscar Ciudad por ID</h1>
+    
+    <!-- Formulario de búsqueda por ID -->
+    <label for="cityId">Ingresa el ID de la ciudad:</label>
+    <input type="number" id="cityId" placeholder="ID de la ciudad">
+    <button onclick="buscarCiudad()">Buscar</button>
+
+    <!-- Botón para abrir el modal -->
+    <button onclick="openModal()">Crear Nueva Ciudad</button>
+    
+    <!-- Modal para crear ciudad -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Crear Nueva Ciudad</h2>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de creación -->
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" placeholder="Nombre de la ciudad"><br><br>
+
+                <label for="pais">País:</label>
+                <input type="text" id="pais" placeholder="País"><br><br>
+
+                <label for="poblacion">Población:</label>
+                <input type="number" id="poblacion" placeholder="Población"><br><br>
+
+                <label for="url_imagen">URL de la Imagen:</label>
+                <input type="text" id="url_imagen" placeholder="URL de la imagen"><br><br>
+            </div>
+            <div class="modal-footer">
+                <button class="close-btn" onclick="closeModal()">Cerrar</button>
+                <button class="submit-btn" onclick="crearCiudad()">Crear Ciudad</button>
+            </div>
+        </div>
+    </div>
+
     <h1>Datos desde la API</h1>
 <table id="data-table">
     <thead>
@@ -277,23 +365,119 @@ window.onload = typeWriter;
 </script>
 
 <script>
-    // Usamos fetch para consumir la API
-    fetch('https://jsonplaceholder.typicode.com/users') // URL de la API de ejemplo
-        .then(response => response.json())
+    // Aquí debes cambiar la URL por la URL de tu API
+    fetch('http://3.83.51.155:8000/api/ciudades') // Ejemplo de la URL de tu API
+        .then(response => response.json()) // Parsear la respuesta como JSON
         .then(data => {
             const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
-            data.forEach(user => {
+            
+            data.forEach(ciudad => {
+                // Crear una nueva fila para cada ciudad
                 const row = tableBody.insertRow();
+
+                // Insertar celdas con los datos de la ciudad
                 row.innerHTML = `
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>${user.address.city}</td>
+                    <td>${ciudad.nombre}</td>
+                    <td>${ciudad.pais}</td>
+                    <td>${ciudad.poblacion}</td>
+                    <td><img src="${ciudad.url_imagen}" alt="Imagen de ${ciudad.nombre}"></td>
                 `;
             });
         })
         .catch(error => {
             console.error('Error al obtener los datos:', error);
         });
+</script>
+<script>
+    // Función para buscar la ciudad por ID
+    function buscarCiudad() {
+        const cityId = document.getElementById('cityId').value;
+
+        if (!cityId) {
+            alert("Por favor, ingresa un ID.");
+            return;
+        }
+
+        // Aquí debes cambiar la URL por la URL de tu API, y agregar el ID en la consulta
+        fetch(`http://3.83.51.155:8000/api/ciudades/${cityId}`)  // Ejemplo de la URL de la API
+            .then(response => response.json())
+            .then(data => {
+                // Verifica si la ciudad fue encontrada
+                if (data.id) {
+                    // Mostrar los resultados
+                    const tableBody = document.getElementById('result-table').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Limpiar cualquier contenido previo
+                    
+                    const row = tableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${data.nombre}</td>
+                        <td>${data.pais}</td>
+                        <td>${data.poblacion}</td>
+                        <td><img src="${data.url_imagen}" alt="Imagen de ${data.nombre}"></td>
+                    `;
+                    
+                    // Mostrar la tabla
+                    document.getElementById('result-table').style.display = 'table';
+                } else {
+                    // Si no se encuentra la ciudad, mostrar un mensaje
+                    alert("Ciudad no encontrada.");
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos:', error);
+                alert("Hubo un error al buscar la ciudad.");
+            });
+    }
+</script>
+<script>
+    // Función para abrir el modal
+    function openModal() {
+        document.getElementById('myModal').style.display = 'flex';
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    // Función para crear una nueva ciudad
+    function crearCiudad() {
+        const nombre = document.getElementById('nombre').value;
+        const pais = document.getElementById('pais').value;
+        const poblacion = document.getElementById('poblacion').value;
+        const url_imagen = document.getElementById('url_imagen').value;
+
+        if (!nombre || !pais || !poblacion || !url_imagen) {
+            alert("Por favor, completa todos los campos.");
+            return;
+        }
+
+        const ciudad = {
+            nombre: nombre,
+            pais: pais,
+            poblacion: poblacion,
+            url_imagen: url_imagen
+        };
+
+        // Realizar la solicitud POST para crear la nueva ciudad
+        fetch('http://3.83.51.155:8000/api/ciudades', {  // Asegúrate de cambiar esta URL por la de tu API
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ciudad)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Si la ciudad fue creada exitosamente
+            alert("Ciudad creada con éxito");
+            closeModal();  // Cerrar el modal
+        })
+        .catch(error => {
+            console.error('Error al crear la ciudad:', error);
+            alert("Hubo un error al crear la ciudad.");
+        });
+    }
 </script>
 
 </body>
