@@ -366,7 +366,7 @@ window.onload = typeWriter;
 
 <script>
     // Aquí debes cambiar la URL por la URL de tu API
-    fetch('http://3.83.51.155:8000/api/ciudades') // Ejemplo de la URL de tu API
+    fetch('http://3.83.51.155:80/api/ciudades') // Ejemplo de la URL de tu API
         .then(response => response.json()) // Parsear la respuesta como JSON
         .then(data => {
             const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
@@ -399,7 +399,7 @@ window.onload = typeWriter;
         }
 
         // Aquí debes cambiar la URL por la URL de tu API, y agregar el ID en la consulta
-        fetch(`http://3.83.51.155:8000/api/ciudades/${cityId}`)  // Ejemplo de la URL de la API
+        fetch(`http://3.83.51.155:80/api/ciudades/${cityId}`)  // Ejemplo de la URL de la API
             .then(response => response.json())
             .then(data => {
                 // Verifica si la ciudad fue encontrada
@@ -460,7 +460,7 @@ window.onload = typeWriter;
         };
 
         // Realizar la solicitud POST para crear la nueva ciudad
-        fetch('http://3.83.51.155:8000/api/ciudades', {  // Asegúrate de cambiar esta URL por la de tu API
+        fetch('http://3.83.51.155:80/api/ciudades', {  // Asegúrate de cambiar esta URL por la de tu API
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
